@@ -4,6 +4,20 @@ def draw(obj, x, y):
     global screen
     screen.blit(obj, (x, y))
 
+# object class
+class object():
+    def __init__(self, path):
+        self.object = pygame.image.load(path)
+        self.size = self.object.get_size()
+        self.width = self.size[0]
+        self.height = self.size[1]
+    def set_location(self, x, y):
+        self.x = x
+        self.y = y
+    def draw(self):
+        global screen
+        screen.blit(self.object, (self.x, self.y))
+
 
 # initialization
 pygame.init()
@@ -14,10 +28,8 @@ pygame.display.set_caption("dino game")
 fps = pygame.time.Clock()
 
 # object
-tree = pygame.image.load("D:\프로그래밍\Python project\공룡게임\\tree.png")
-tree_height = tree.get_size()[1]
-tree_x = 800
-tree_y = screen_height - tree_height
+tree = object("D:\프로그래밍\Python project\공룡게임\\tree.png")
+tree.set_location(800, screen_height - tree.height)
 
 dino_1 = pygame.image.load("D:\프로그래밍\Python project\공룡게임\dino1.png")
 dino_2 = pygame.image.load("D:\프로그래밍\Python project\공룡게임\dino2.png")
@@ -67,15 +79,15 @@ while running:
 
 
 # tree 위치 조정
-    tree_x -= 10
-    if tree_x == 0:
-        tree_x = 800
+    tree.x -= 10
+    if tree.x == 0:
+        tree.x = 800
 
 
 # draw
     screen.fill((255, 255, 255))
 
-    draw(tree, tree_x, tree_y)
+    tree.draw()
     
     if dino_legSwap:
         draw(dino_1, dino_x, dino_y)
@@ -98,9 +110,9 @@ while running:
     dino_rect.left = dino_x
     dino_rect.top = dino_y
 
-    tree_rect = tree.get_rect()
-    tree_rect.left = tree_x
-    tree_rect.top = tree_y
+    tree_rect = tree.object.get_rect()
+    tree_rect.left = tree.x
+    tree_rect.top = tree.y
 
     if dino_rect.colliderect(tree_rect):
         print("Game Over")
