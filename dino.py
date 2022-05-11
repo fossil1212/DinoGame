@@ -1,9 +1,5 @@
 import pygame, sys, time
 
-def draw(obj, x, y):
-    global screen
-    screen.blit(obj, (x, y))
-
 # object class
 class object():
     def __init__(self, path):
@@ -35,19 +31,6 @@ fps = pygame.time.Clock()
 tree = object("D:\프로그래밍\Python project\공룡게임\\tree.png")
 tree.set_location(800, screen_height - tree.height)
 
-
-# dino = pygame.image.load("D:\프로그래밍\Python project\공룡게임\dino1.png")
-# dino_2 = pygame.image.load("D:\프로그래밍\Python project\공룡게임\dino2.png")
-# dino_size = dino.get_size()
-# dino_width = dino_size[0]
-# dino_height = dino_size[1]
-# bottom = screen_height - dino_height
-# top = 150
-# dino_x = 50
-# dino_y = bottom
-# dino_to_y = 0
-# dino_legSwap = True
-# legTimer = 0
 
 dino = object("D:\프로그래밍\Python project\공룡게임\dino1.png")
 dino2 = pygame.image.load("D:\프로그래밍\Python project\공룡게임\dino2.png")
@@ -109,7 +92,7 @@ while running:
     if dino_legSwap:
         dino.draw()
     else:
-        draw(dino2, dino.x, dino.y)
+        screen.blit(dino2, (dino.x, dino.y))
 
     legTimer += 1
     if legTimer%12 == 0:
