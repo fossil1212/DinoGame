@@ -17,6 +17,10 @@ class object():
     def draw(self):
         global screen
         screen.blit(self.object, (self.x, self.y))
+    def set_acceleration(self, x, y):
+        self.to_x = x
+        self.to_y = y
+
 
 
 # initialization
@@ -31,16 +35,29 @@ fps = pygame.time.Clock()
 tree = object("D:\프로그래밍\Python project\공룡게임\\tree.png")
 tree.set_location(800, screen_height - tree.height)
 
-dino_1 = pygame.image.load("D:\프로그래밍\Python project\공룡게임\dino1.png")
-dino_2 = pygame.image.load("D:\프로그래밍\Python project\공룡게임\dino2.png")
-dino_size = dino_1.get_size()
-dino_width = dino_size[0]
-dino_height = dino_size[1]
-dino_bottom = screen_height - dino_height
-dino_top = 150
-dino_x = 50
-dino_y = dino_bottom
-dino_to_y = 0
+
+# dino = pygame.image.load("D:\프로그래밍\Python project\공룡게임\dino1.png")
+# dino_2 = pygame.image.load("D:\프로그래밍\Python project\공룡게임\dino2.png")
+# dino_size = dino.get_size()
+# dino_width = dino_size[0]
+# dino_height = dino_size[1]
+# bottom = screen_height - dino_height
+# top = 150
+# dino_x = 50
+# dino_y = bottom
+# dino_to_y = 0
+# dino_legSwap = True
+# legTimer = 0
+
+dino = object("D:\프로그래밍\Python project\공룡게임\dino1.png")
+dino2 = pygame.image.load("D:\프로그래밍\Python project\공룡게임\dino2.png")
+
+bottom = screen_height - dino.height
+top = 150
+
+dino.set_location(50, bottom)
+dino.set_acceleration(0, 0)
+
 dino_legSwap = True
 legTimer = 0
 
@@ -60,22 +77,22 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and not dino_jumping:
                 dino_jumping = True
-                dino_to_y = -10
+                dino.to_y = -10
 
 
 
 # dino 위치 조정
-    dino_y += dino_to_y
+    dino.y += dino.to_y
     # 중력가속도
-    dino_to_y += 0.5
+    dino.to_y += 0.5
     # 최대 높이보다 올라갔을 때 
-    if dino_y <= dino_top:
-        dino_y = dino_top
+    if dino.y <= top:
+        dino.y = top
     # 바닥에 닿았을 때
-    if dino_y >= dino_bottom:
-        dino_y = dino_bottom
+    if dino.y >= bottom:
+        dino.y = bottom
         dino_jumping = False
-        dino_to_y = 0
+        dino.to_y = 0
 
 
 # tree 위치 조정
@@ -90,9 +107,9 @@ while running:
     tree.draw()
     
     if dino_legSwap:
-        draw(dino_1, dino_x, dino_y)
+        dino.draw()
     else:
-        draw(dino_2, dino_x, dino_y)
+        draw(dino2, dino.x, dino.y)
 
     legTimer += 1
     if legTimer%12 == 0:
@@ -106,9 +123,9 @@ while running:
 
 
 # Game over
-    dino_rect = dino_1.get_rect()
-    dino_rect.left = dino_x
-    dino_rect.top = dino_y
+    dino_rect = dino.object.get_rect()
+    dino_rect.left = dino.x
+    dino_rect.top = dino.y
 
     tree_rect = tree.object.get_rect()
     tree_rect.left = tree.x
